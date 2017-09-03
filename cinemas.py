@@ -55,7 +55,11 @@ def fetch_films_info(film_titles, from_url='https://www.kinopoisk.ru'):
     from_user_agents = make_useragents_list()
     films_with_ratings = Counter()
     for title in film_titles:
-        search_params = produce_params(title)
+        search_params = {
+            'first': 'no',
+            'what': '',
+            'kp_query': title
+           }
         rnd_proxy_url = compose_proxy_url(get_random(from_proxy_ips))
         rnd_header = produce_headers(get_random(from_user_agents))
         response = requests.get(
@@ -102,14 +106,6 @@ def obtain_args():
     parser = create_parser()
     namespace = parser.parse_args(sys.argv[1:])
     return namespace
-
-
-def produce_params(kp_query):
-    return {
-            'first': 'no',
-            'what': '',
-            'kp_query': kp_query
-           }
 
 
 def produce_headers(user_agent):
