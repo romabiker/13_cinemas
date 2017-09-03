@@ -55,16 +55,11 @@ def fetch_films_info(film_titles, from_url='https://www.kinopoisk.ru'):
     from_user_agents = make_useragents_list()
     films_with_ratings = Counter()
     for title in film_titles:
-        search_params = {
-            'first': 'no',
-            'what': '',
-            'kp_query': title
-           }
         rnd_proxy_url = compose_proxy_url(get_random(from_proxy_ips))
         rnd_header = produce_headers(get_random(from_user_agents))
         response = requests.get(
                     from_url,
-                    params=search_params,
+                    params={'first': 'no', 'what': '', 'kp_query': title},
                     headers=rnd_header,
                     proxies=rnd_proxy_url,
         )
@@ -89,10 +84,12 @@ def make_useragents_list(from_file='user_agents.txt'):
 
 
 def fetch_proxy_ip_list(
-                        proxy_provider='http://www.freeproxy-list.ru/\
-                        api/proxy?anonymity=false&token=demo'
-                        ):
-    response = requests.get(proxy_provider)
+                provider='http://www.freeproxy-list.ru/api/proxy'
+                ):
+    response = requests.get(
+                proxy_provider,
+                params={'anonymity': 'false', 'token': 'demo'}
+                )
     if response.ok:
         return response.text.splitlines()
 
