@@ -87,7 +87,7 @@ def fetch_proxy_ip_list(
                 provider='http://www.freeproxy-list.ru/api/proxy'
                 ):
     response = requests.get(
-                proxy_provider,
+                provider,
                 params={'anonymity': 'false', 'token': 'demo'}
                 )
     if response.ok:
